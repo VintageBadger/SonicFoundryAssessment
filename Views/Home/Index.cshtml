@@ -1,0 +1,35 @@
+﻿@model HomeViewModel
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 drawer">
+            <div>
+                <form>
+                    <div class="form-group">
+                        <input placeholder="ZipCode" type="text" class="form-control" />
+                    </div>
+                    <div class="text-center">
+                        <div class="form-group">
+                            <button class="btn btn-primary">Lookup Weather</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <hr style="background-color: white; height: 2px; width:100%" />
+            <div>
+                <div class="locationCol">
+                    <h5>Show the stored locations buttons here</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10 content">
+            <h3>Get started by searching for your weather by zipcode</h3>
+            @if (Model.Weather != null) {
+                <h2>Location</h2>
+                <h3>Temp&deg;</h3>
+                <h4>High: highTemp&deg; Low: lowTemp&deg;</h4>
+            }
+        </div>
+    </div>
+</div>
