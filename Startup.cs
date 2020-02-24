@@ -10,7 +10,9 @@ using SofoTest.Data;
 namespace SofoTest {
     public class Startup {
         public Startup(IConfiguration configuration) {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false);
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -23,16 +25,22 @@ namespace SofoTest {
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            //TODO
             // Use database connection string provided from appsettings.json
-            string dbConnectionStringFromAppSettings = null;
+            string dbConnectionStringFromAppSettings = Configuration.GetValue<string>("DBConnectionString").ToString();
             services.AddDbContext<SofoDBContext>(options =>
                 options.UseSqlite(dbConnectionStringFromAppSettings));
+            var optionsBuilder = new DbContextOptionsBuilder<SofoDBContext>();
+            optionsBuilder.UseSqlite(dbConnectionStringFromAppSettings);
+            SofoDBContext context = new SofoDBContext(optionsBuilder.Options);
 
-            string weatherApiKeyFromAppSettings = null;
+            string weatherApiKeyFromAppSettings = Configuration.GetValue<string>("OpenWeatherApiKey");
             // Use dependency injection to create a scoped Location and Weather service
-            //TODO
-         
+            services.AddScoped<Services.ILocationService, Services.LocationService>(_ => new Services.LocationService(context));
+            services.AddScoped<Services.IWeatherService, Services.WeatherService>(_ => new Services.WeatherService(weatherApiKeyFromAppSettings));
+           
+      
+
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

@@ -1,4 +1,9 @@
 ﻿@model HomeViewModel
+@{ 
+        var hello = "Hello World";
+    //TODO  get the list of locations in db
+        string[] locations = { "Milwaukee", "Chicago", "Miami" }; 
+}
 
 
 <div class="container-fluid">
@@ -7,11 +12,11 @@
             <div>
                 <form>
                     <div class="form-group">
-                        <input placeholder="ZipCode" type="text" class="form-control" />
+                        <input id="inputZipCode" placeholder="ZipCode" type="text" class="form-control" />
                     </div>
                     <div class="text-center">
                         <div class="form-group">
-                            <button class="btn btn-primary">Lookup Weather</button>
+                            <button id="btnLookupWeather" class="btn btn-primary">Lookup Weather</button>
                         </div>
                     </div>
                 </form>
@@ -20,6 +25,12 @@
             <div>
                 <div class="locationCol">
                     <h5>Show the stored locations buttons here</h5>
+                    <p>@hello</p>
+                    @for(var i=0; i <locations.Length; i++)
+                    {
+                        var location = locations[i];
+                        <h5>@location</h5>
+                    }
                 </div>
             </div>
         </div>
